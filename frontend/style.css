@@ -1,0 +1,29 @@
+/* body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+#login-container,
+#app-container {
+    display: none;
+}
+
+#login-container h2,
+#app-container h2 {
+    margin-top: 0;
+}
+
+#login-container input,
+#app-container textarea {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#app-container textarea {
+    height: 150px;
+} */
