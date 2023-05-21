@@ -2,14 +2,27 @@ require "sinatra"
 require "sinatra/json"
 require "sinatra/base"
 require "jwt"
+require "sinatra/contrib"
 require_relative "db"
 require_relative "models/user"
 require_relative "models/note"
+require "sinatra/reloader"
+register Sinatra::Namespace
+session_secret = SecureRandom.hex(32)
+
+configure do
+  enable :sessions
+  set :session_secret, session_secret
+  set :views, File.join(__dir__, "views")
+  set :public_folder, File.join(__dir__, "public")
+  # set :erb, layout: :layout
+end
+
 JWT_SECRET = "eidfuhurhiudfbgtiehbidbfiutbeiubd"
 
-before do
-  content_type :json
-end
+# before do
+#   content_type :json
+# end
 
 post "/login" do
   request_body = JSON.parse(request.body.read)
@@ -95,10 +108,6 @@ post "/register" do
 
     { message: "User registered successfully" }.to_json
   end
-end
-
-get "/" do
-  { message: "Cannot GET /" }.to_json
 end
 
 put "/notes/:note_id" do
@@ -217,4 +226,10 @@ get "/notes" do
     status 401
     { error: "Missing token" }.to_json
   end
+end
+
+set :public_folder, Proc.new { File.join(root, "frontend") }
+
+get "/" do
+  erb :home
 end

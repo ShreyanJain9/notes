@@ -6,3 +6,5 @@ gem "jwt"
 gem "sequel"
 gem "sqlite3"
 gem "rack-cors", :require => "rack/cors"
+
+gem "inflecto", "~> 0.0.2"
