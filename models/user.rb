@@ -18,4 +18,13 @@ class User < Sequel::Model
 
     user.password_valid?(password) ? user : nil
   end
+
+  one_to_many :posts
+
+  def to_json(options = {})
+    {
+      id: id,
+      username: username,
+    }
+  end
 end

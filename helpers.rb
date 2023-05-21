@@ -5,5 +5,5 @@ def require_helpers(helper_list)
 end
 
 # Example usage
-helper_list = []
+helper_list = ["authenticate"]
 require_helpers(helper_list)

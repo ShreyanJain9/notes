@@ -5,5 +5,5 @@ def require_models(model_list)
 end
 
 # Example usage
-model_list = ["note", "user"]
+model_list = ["note", "user", "post"]
 require_models(model_list)
