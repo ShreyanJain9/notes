@@ -1,6 +1,4 @@
-require "sequel"
-
-DB = Sequel.sqlite("pastebin.db")
+require_relative "db"
 
 DB.create_table?(:users) do
   primary_key :id
