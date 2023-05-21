@@ -1,12 +1,12 @@
 require "sinatra"
 require "sinatra/json"
 require "sinatra/base"
-require "jwt"
 require "sinatra/contrib"
-require_relative "db"
 require "sinatra/reloader"
+require "jwt"
+require_relative "db"
 require_relative "controllers"
-require_relative "models"
+require_relative "helpers"
 
 register Sinatra::Namespace
 session_secret = SecureRandom.hex(32)
@@ -19,7 +19,7 @@ configure do
   # set :erb, layout: :layout
 end
 
-JWT_SECRET = SecureRandom.hex(32)
+JWT_SECRET = Math::PI.to_s
 
 # before do
 #   content_type :json
@@ -29,4 +29,8 @@ set :public_folder, Proc.new { File.join(root, "frontend") }
 
 get "/" do
   erb :home
+end
+
+get "/home/register" do
+  erb :register
 end

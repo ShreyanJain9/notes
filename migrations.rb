@@ -12,3 +12,9 @@ DB.create_table?(:notes) do
   DateTime :created_at
   foreign_key :user_id, :users
 end
+
+DB.create_table?(:collaborations) do
+  primary_key :id
+  foreign_key :note_id, :notes
+  foreign_key :user_id, :users
+end
