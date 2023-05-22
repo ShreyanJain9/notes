@@ -6,6 +6,12 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@material/button/dist/mdc.button.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@material/dialog/dist/mdc.dialog.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@material/textfield/dist/mdc.textfield.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@material/fab/dist/mdc.fab.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@material/button/dist/mdc.button.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@material/dialog/dist/mdc.dialog.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@material/textfield/dist/mdc.textfield.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@material/list/dist/mdc.list.min.css">
 
   <style>
     body {
@@ -27,6 +33,18 @@
     button {
       padding: 10px 20px;
       margin-top: 10px;
+    }    .mdc-dialog__surface {
+      width: 500px;
+    }
+    .mdc-dialog__surface {
+      width: 500px;
+    }
+ .mdc-dialog__surface {
+      width: 500px;
+    }
+
+    .mdc-text-field--fullwidth {
+      width: 100%;
     }
 
     .note-list {
@@ -34,16 +52,45 @@
     }
 
     .note-item {
-      margin-bottom: 10px;
-      border: 1px solid #ddd;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
       padding: 10px;
-    }
-    .mdc-dialog__surface {
-      width: 500px;
+      background-color: #f5f5f5;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.3s ease;
     }
 
-    .mdc-text-field--fullwidth {
-      width: 100%;
+    .note-item:hover {
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .note-item p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.4;
+      color: #333;
+    }
+
+    .note-item .note-actions {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .note-item .note-actions button {
+      margin-right: 10px;
+    }
+
+    .mdc-button--accent {
+      color: #fff;
+      background-color: #ff4081;
+    }
+
+    .mdc-button--accent:hover {
+      background-color: #f50057;
     }
   </style>
 </head>
@@ -71,7 +118,8 @@
     <br>
     <button class="mdc-button mdc-button--raised" onclick="createNote()">Create Note</button>
   </div>
-  <div id="note-list" class="note-list" style="display: none;">
+<br>
+    <div id="note-list" class="note-gallery" style="display: none;">
     <% # <h2>Notes:</h2> %>
     <div id="note-items"></div>
   </div>
@@ -157,33 +205,31 @@
         });
     }
 
-    function createNote() {
-      const token = getToken();
+function createNote() {
+  const content = document.getElementById('note-content').value;
+  const token = getToken();
 
-      if (!token) {
-        showLoginForm();
-        return;
-      }
-
-      const noteContent = document.getElementById('note-content').value;
-
-      fetch('/paste', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ content: noteContent })
+  if (content && token) {
+    fetch('/paste', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ content })
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Note created:', data);
+        document.getElementById('note-content').value = ''; // Clear the note content field
+        fetchNotes(); // Refresh the notes list
       })
-        .then(response => response.json())
-        .then(data => {
-          // Handle note creation response
-        })
-        .catch(error => {
-          console.error('Error creating note:', error);
-          alert('Error creating note. Please try again.');
-        });
-    }
+      .catch(error => {
+        console.error('Error creating note:', error);
+        alert('Error creating note. Please try again.');
+      });
+  }
+}
 
 
     function updateNoteList(notes) {
@@ -196,6 +242,7 @@
           noteItem.classList.add('note-item');
           noteItem.innerHTML = `
             <p>${note.content}</p>
+            <br>
             <button onclick="editNoteModal('${note.id}', '${note.content}')">Edit</button>
             <button onclick="deleteNoteModal('${note.id}')">Delete</button>
           `;
