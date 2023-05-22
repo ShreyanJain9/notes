@@ -25,8 +25,6 @@ JWT_SECRET = Math::PI.to_s
 #   content_type :json
 # end
 
-set :public_folder, Proc.new { File.join(root, "frontend") }
-
 get "/" do
   erb :home
 end
@@ -35,7 +33,7 @@ get "/home/register" do
   erb :register
 end
 
-get "/styles.css" do
-  content_type "text/css"
-  File.read(File.join("public", "styles.css"))
-end
+# get "/styles.css" do
+#   content_type "text/css"
+#   File.read(File.join("public", "styles.css"))
+# end
