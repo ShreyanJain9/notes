@@ -6,6 +6,7 @@ require "sinatra/reloader"
 require "haml"
 require "jwt"
 require "sassc"
+require_relative "models"
 require_relative "db"
 require_relative "controllers"
 require_relative "helpers"
@@ -23,10 +24,6 @@ end
 
 JWT_SECRET = Math::PI.to_s
 
-# before do
-#   content_type :json
-# end
-
 get "/" do
   haml :index
 end
@@ -37,5 +34,5 @@ end
 
 get "/styles.css" do
   content_type "text/css"
-  erb :styles
+  haml :styles
 end
