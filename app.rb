@@ -5,6 +5,7 @@ require "sinatra/contrib"
 require "sinatra/reloader"
 require "haml"
 require "jwt"
+require "sassc"
 require_relative "db"
 require_relative "controllers"
 require_relative "helpers"
@@ -34,7 +35,8 @@ get "/home/register" do
   haml :register
 end
 
-# get "/styles.css" do
-#   content_type "text/css"
-#   File.read(File.join("public", "styles.css"))
-# end
+get "/styles.css" do
+  content_type "text/css"
+  #   File.read(File.join("public", "styles.css"))
+  erb :styles
+end

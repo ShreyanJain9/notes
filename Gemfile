@@ -9,3 +9,5 @@ gem "rack-cors", :require => "rack/cors"
 gem "inflecto", "~> 0.0.2"
 
 gem "haml", "~> 6.1"
+
+gem "sassc", "~> 2.4"

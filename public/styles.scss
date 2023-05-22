@@ -1,0 +1,70 @@
+$color_1: #333;
+$color_2: #fff;
+$font-family_1: Arial, sans-serif;
+$background-color_1: #f5f5f5;
+$background-color_2: #ff4081;
+$background-color_3: #f50057;
+
+body {
+	font-family: $font-family_1;
+	margin: 0;
+	padding: 20px;
+}
+h1 {
+	margin-bottom: 20px;
+}
+textarea {
+	width: 400px;
+	height: 200px;
+	margin-bottom: 10px;
+}
+button {
+	padding: 10px 20px;
+	margin-top: 10px;
+}
+.mdc-dialog__surface {
+	width: 500px;
+	width: 500px;
+	width: 500px;
+}
+.mdc-text-field--fullwidth {
+	width: 100%;
+}
+.note-list {
+	margin-top: 20px;
+}
+.note-item {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 10px;
+	background-color: $background-color_1;
+	border-radius: 4px;
+	margin-bottom: 10px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	transition: box-shadow 0.3s ease;
+	&:hover {
+		box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+	}
+	p {
+		margin: 0;
+		font-size: 16px;
+		line-height: 1.4;
+		color: $color_1;
+	}
+	.note-actions {
+		display: flex;
+		align-items: center;
+		margin-top: 10px;
+		button {
+			margin-right: 10px;
+		}
+	}
+}
+.mdc-button--accent {
+	color: $color_2;
+	background-color: $background-color_2;
+	&:hover {
+		background-color: $background-color_3;
+	}
+}

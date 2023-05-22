@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     bcrypt (3.1.18)
+    ffi (1.15.5)
     haml (6.1.1)
       temple (>= 0.8.2)
       thor
@@ -17,6 +18,8 @@ GEM
     rack-protection (3.0.6)
       rack
     ruby2_keywords (0.0.5)
+    sassc (2.4.0)
+      ffi (~> 1.9)
     sequel (5.68.0)
     sinatra (3.0.6)
       mustermann (~> 3.0)
@@ -43,6 +46,7 @@ DEPENDENCIES
   inflecto (~> 0.0.2)
   jwt
   rack-cors
+  sassc (~> 2.4)
   sequel
   sinatra
   sinatra-contrib
