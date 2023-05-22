@@ -1,0 +1,34 @@
+!!!
+%html
+  %head
+    %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title Notes
+    %link{href: "https://cdn.jsdelivr.net/npm/@material/button/dist/mdc.button.min.css", rel: "stylesheet"}/
+    %link{href: "https://cdn.jsdelivr.net/npm/@material/dialog/dist/mdc.dialog.min.css", rel: "stylesheet"}/
+    %link{href: "https://fonts.googleapis.com/icon?family=Material+Icons", rel: "stylesheet"}/
+    %link{href: "https://cdn.jsdelivr.net/npm/@material/fab/dist/mdc.fab.min.css", rel: "stylesheet"}/
+    %link{href: "https://cdn.jsdelivr.net/npm/@material/textfield/dist/mdc.textfield.min.css", rel: "stylesheet"}/
+    %link{href: "https://cdn.jsdelivr.net/npm/@material/list/dist/mdc.list.min.css", rel: "stylesheet"}/
+    %link{href: "#{url("/styles.css")}", rel: "stylesheet", type: "text/css"}/
+  %body
+    %h1 Notes
+    #login-form
+      %h2 Login
+      .mdc-text-field.mdc-text-field--fullwidth
+        %input#username.mdc-text-field__input{placeholder: "Username", type: "text"}/
+        .mdc-line-ripple
+      .mdc-text-field.mdc-text-field--fullwidth
+        %input#password.mdc-text-field__input{placeholder: "Password", type: "password"}/
+        .mdc-line-ripple
+      %button.mdc-button.mdc-button--raised{onclick: "login()"} Login
+    #note-form{style: "display: none;"}
+      .mdc-text-field.mdc-text-field--fullwidth
+        %textarea#note-content.mdc-text-field__input{placeholder: "Enter note content"}
+        .mdc-line-ripple
+      %br/
+      %button.mdc-button.mdc-button--raised{onclick: "createNote()"} Create Note
+    %br/
+    #note-list.note-gallery{style: "display: none;"}
+      - # <h2>Notes:</h2>
+      #note-items
+    %script{src: "/notes.js"} :cdata
