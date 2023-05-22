@@ -34,3 +34,8 @@ end
 get "/home/register" do
   erb :register
 end
+
+get "/styles.css" do
+  content_type "text/css"
+  File.read(File.join("public", "styles.css"))
+end
