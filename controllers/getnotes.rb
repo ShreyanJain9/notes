@@ -1,4 +1,5 @@
 get "/notes/:note_id" do
+  content_type :json
   authorization_header = request.env["HTTP_AUTHORIZATION"]
 
   if authorization_header && authorization_header.start_with?("Bearer ")
@@ -28,6 +29,7 @@ get "/notes/:note_id" do
 end
 
 get "/notes" do
+  content_type :json
   authorization_header = request.env["HTTP_AUTHORIZATION"]
 
   if authorization_header && authorization_header.start_with?("Bearer ")
