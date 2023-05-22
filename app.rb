@@ -31,7 +31,7 @@ get "/" do
 end
 
 get "/home/register" do
-  erb :register
+  haml :register
 end
 
 # get "/styles.css" do
