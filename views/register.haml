@@ -1,15 +1,43 @@
-!!!
 %html
   %head
     %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %title Register
-  %body
-    %h1 Register
-    %form{action: "/register", method: "POST"}
-      %label{for: "username"} Username:
-      %input#username{name: "username", type: "text"}/
-      %br/
-      %label{for: "password"} Password:
-      %input#password{name: "password", type: "password"}/
-      %br/
-      %input{type: "submit", value: "Register"}/
+    %script
+      :plain
+        function registerUser(event) {
+          event.preventDefault();
+
+          const form = document.getElementById("register-form");
+          const username = form.username.value;
+          const password = form.password.value;
+
+          fetch("/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ username: username, password: password })
+          })
+          .then(response => {
+            if (response.ok) {
+              // Registration successful, redirect to home page
+              window.location.href = "/";
+            } else {
+              throw new Error("Registration failed");
+            }
+          })
+          .catch(error => {
+            console.error(error);
+            // Handle any errors
+          });
+        }
+    %body
+      %h1 Register
+      %form{id: "register-form"}
+        %label{for: "username"} Username:
+        %input#username{name: "username", type: "text"}/
+        %br/
+        %label{for: "password"} Password:
+        %input#password{name: "password", type: "password"}/
+        %br/
+        %input{type: "submit", value: "Register", onclick: "registerUser(event)"}/
