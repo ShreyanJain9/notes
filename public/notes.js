@@ -2,129 +2,127 @@ function showLoginForm() {
     document.getElementById('login-form').style.display = 'block';
     document.getElementById('note-form').style.display = 'none';
     document.getElementById('note-list').style.display = 'none';
-}
+  }
 
-function showNoteForm() {
+  function showNoteForm() {
     document.getElementById('login-form').style.display = 'none';
     document.getElementById('note-form').style.display = 'block';
     document.getElementById('note-list').style.display = 'block';
-}
+  }
 
-function setToken(token) {
+function setToken() {
     localStorage.setItem('token', token);
-}
+  }
 
 function getToken() {
     return localStorage.getItem('token');
-}
+  }
 
-function clearToken() {
+  function clearToken() {
     localStorage.removeItem('token');
-}
+  }
 
-function login() {
+  function login() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
     fetch('/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, password })
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, password })
     })
-        .then(response => response.json())
-        .then(data => {
-            const token = data.token;
-            if (token) {
-                setToken(token);
-                showNoteForm();
-                fetchNotes();
-            } else {
-                alert('Login failed. Please try again.');
-            }
-        })
-        .catch(error => {
-            console.error('Error logging in:', error);
-            alert('Error logging in. Please try again.');
-        });
-}
+      .then(response => response.json())
+      .then(data => {
+        const token = data.token;
+        if (token) {
+          setToken(token);
+          showNoteForm();
+          fetchNotes();
+        } else {
+          alert('Login failed. Please try again.');
+        }
+      })
+      .catch(error => {
+        console.error('Error logging in:', error);
+        alert('Error logging in. Please try again.');
+      });
+  }
 
-function logout() {
+  function logout() {
     clearToken();
     showLoginForm();
-}
+  }
 
-function fetchNotes() {
+  function fetchNotes() {
     const token = getToken();
 
     if (!token) {
-        showLoginForm();
-        return;
+      showLoginForm();
+      return;
     }
 
     fetch('/notes', {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
     })
-        .then(response => response.json())
-        .then(data => {
-            // Update note list UI
-        })
-        .catch(error => {
-            console.error('Error fetching notes:', error);
-            alert('Error fetching notes. Please try again.');
-        });
-}
+      .then(response => response.json())
+      .then(data => {
+        updateNoteList(data.notes);
+      })
+      .catch(error => {
+        console.error('Error fetching notes:', error);
+        alert('Error fetching notes. Please try again.');
+      });
+  }
 
-function createNote() {
+  function createNote() {
     const content = document.getElementById('note-content').value;
     const token = getToken();
 
     if (content && token) {
-        fetch('/paste', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ content })
+      fetch('/paste', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ content })
+      })
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('note-content').value = ''; // Clear the note content field
+          fetchNotes(); // Refresh the notes list
         })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Note created:', data);
-                document.getElementById('note-content').value = ''; // Clear the note content field
-                fetchNotes(); // Refresh the notes list
-            })
-            .catch(error => {
-                console.error('Error creating note:', error);
-                alert('Error creating note. Please try again.');
-            });
+        .catch(error => {
+          console.error('Error creating note:', error);
+          alert('Error creating note. Please try again.');
+        });
     }
-}
+  }
 
-
-function updateNoteList(notes) {
+  function updateNoteList(notes) {
     const noteItems = document.getElementById('note-items');
     noteItems.innerHTML = '';
 
     if (notes && notes.length > 0) {
-        notes.forEach(note => {
-            const noteItem = document.createElement('div');
-            noteItem.classList.add('note-item');
-            noteItem.innerHTML = `
+      notes.forEach(note => {
+        const noteItem = document.createElement('div');
+        noteItem.classList.add('note-item');
+        noteItem.innerHTML = `
           <p>${note.content}</p>
           <br>
           <button onclick="editNoteModal('${note.id}', '${note.content}')">Edit</button>
           <button onclick="deleteNoteModal('${note.id}')">Delete</button>
         `;
-            noteItems.appendChild(noteItem);
-        });
+        noteItems.appendChild(noteItem);
+      });
     } else {
-        noteItems.innerHTML += '<p>No notes found.</p>';
+      noteItems.innerHTML += '<p>No notes found.</p>';
     }
-}
+  }
 
 function editNoteModal(noteId, noteContent) {
     const newContent = prompt('Enter the new note content:', noteContent);
