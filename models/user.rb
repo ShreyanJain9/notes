@@ -2,6 +2,7 @@ require "bcrypt"
 
 class User < Sequel::Model
   one_to_many :notes, class: :Note
+  one_to_many :chirps, class: :Chirp
   many_to_many :shared_notes, class: :Note, join_table: :collaborations, left_key: :collaborator_id, right_key: :note_id
 
   def password=(password)

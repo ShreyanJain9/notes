@@ -1,4 +1,4 @@
-put "/notes/:note_id" do
+put "/chirps/:chirp_id" do
   content_type :json
   authorization_header = request.env["HTTP_AUTHORIZATION"]
 
@@ -10,18 +10,18 @@ put "/notes/:note_id" do
     user = User.find(username: username)
 
     if user
-      note = user.notes_dataset.first(id: params[:note_id])
+      chirp = user.chirps_dataset.first(id: params[:chirp_id])
 
-      if note
+      if chirp
         request_body = JSON.parse(request.body.read)
         new_content = request_body["content"]
 
-        note.update(content: new_content)
+        chirp.update(content: new_content)
 
-        { message: "Note updated successfully" }.to_json
+        { message: "chirp updated successfully" }.to_json
       else
         status 404
-        { error: "Note not found" }.to_json
+        { error: "chirp not found" }.to_json
       end
     else
       status 401
