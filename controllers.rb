@@ -4,5 +4,5 @@ def require_controllers(controller_names_list)
   end
 end
 
-controllers = ["delete", "getnotes", "put", "users", "shares"]
+controllers = %w[delete getnotes put users shares dice]
 require_controllers(controllers)

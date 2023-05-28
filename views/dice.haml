@@ -1,0 +1,50 @@
+%div.dice-container
+  %div.dice
+    %span#face
+
+%button#roll-button Roll the Dice
+
+%style
+  :plain
+    .dice-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 200px;
+    }
+
+    .dice {
+      width: 150px;
+      height: 150px;
+      background-color: white;
+      border: 1px solid black;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 48px;
+      font-weight: bold;
+    }
+
+%script(type="text/javascript")
+  :plain
+    document.addEventListener('DOMContentLoaded', function() {
+      var rollButton = document.querySelector('#roll-button');
+      var faceSpan = document.querySelector('#face');
+
+      rollButton.addEventListener('click', function() {
+        fetch('/die/roll')
+          .then(response => response.json())
+          .then(data => {
+            if (data.ok) {
+              faceSpan.textContent = data.face;
+            } else {
+              alert('An error occurred: ' + data.message);
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while rolling the dice.');
+          });
+      });
+    });

@@ -35,3 +35,7 @@ get "/styles.css" do
   content_type "text/css"
   haml :styles
 end
+
+get "/die" do
+  haml :dice
+end
